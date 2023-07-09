@@ -1,19 +1,125 @@
-import { Box, Button, Container, Group, Text, TextInput } from "@mantine/core";
+"use client";
+import {
+  Blockquote,
+  Box,
+  Button,
+  ButtonGroup,
+  CloseButton,
+  Container,
+  Group,
+  Table,
+  Text,
+  TextInput,
+  Title,
+  Tooltip,
+} from "@mantine/core";
+import { useState } from "react";
+
+type ButtonDataProps = {
+  title: string;
+  onClick: () => void;
+};
+
+const elements = [
+  { position: 6, mass: 12.011, symbol: "C", name: "Carbon" },
+  { position: 7, mass: 14.007, symbol: "N", name: "Nitrogen" },
+  { position: 39, mass: 88.906, symbol: "Y", name: "Yttrium" },
+  { position: 56, mass: 137.33, symbol: "Ba", name: "Barium" },
+  { position: 58, mass: 140.12, symbol: "Ce", name: "Cerium" },
+];
+
+const RenderTable = () => {
+  const rows = elements.map((element) => (
+    <Table.Tr key={element.name}>
+      <Table.Td>{element.position}</Table.Td>
+      <Table.Td>{element.name}</Table.Td>
+      <Table.Td>{element.symbol}</Table.Td>
+      <Table.Td>{element.mass}</Table.Td>
+    </Table.Tr>
+  ));
+
+  return (
+    <Table highlightOnHover>
+      <Table.Thead>
+        <Table.Tr>
+          <Table.Th>Element position</Table.Th>
+          <Table.Th>Element name</Table.Th>
+          <Table.Th>Symbol</Table.Th>
+          <Table.Th>Atomic mass</Table.Th>
+        </Table.Tr>
+      </Table.Thead>
+      <Table.Tbody>{rows}</Table.Tbody>
+    </Table>
+  );
+};
 
 export default function HomePage() {
+  const [value, setValue] = useState("");
+
+  const ButtonsData: ButtonDataProps[] = [
+    {
+      title: "Add",
+      onClick: () => {
+        setValue("Joshua Nwosu");
+      },
+    },
+    {
+      title: "Log",
+      onClick: () => {
+        console.log(value);
+      },
+    },
+    {
+      title: "Clear",
+      onClick: () => {
+        setValue("");
+      },
+    },
+  ];
+
   return (
     <Container size={"md"}>
-      <h2>Home page</h2>
+      <Title order={3} size="h1">
+        Home page
+      </Title>
+
+      <Blockquote color="blue" cite="– Forrest Gump" my="xl">
+        Life is like an npm install – you never know what you are going to get.
+      </Blockquote>
+
       <TextInput
-        label="Input label"
+        label="Enter full name"
         description="Input description"
-        placeholder="Input placeholder"
+        placeholder="Full name"
+        value={value}
+        onChange={(event) => setValue(event.currentTarget.value)}
+        rightSection={
+          <CloseButton
+            aria-label="Clear input"
+            onClick={() => setValue("")}
+            style={{ display: value ? undefined : "none" }}
+          />
+        }
       />
 
-      <Group gap={"xs"} mt={"xs"} grow wrap="nowrap">
-        <Button onClick={() => console.log("Hi")}>Log Info</Button>
-        <Button onClick={() => console.log("Clear")}>Clear Info</Button>
-        <Button>Add Info</Button>
+      <Group gap={"xs"} mt={"xs"}>
+        {ButtonsData.map((item, index: number) => {
+          return (
+            <Tooltip
+              label={item.title}
+              withArrow
+              key={index.toString()}
+              arrowPosition="side"
+              arrowOffset={10}
+              position="bottom-start"
+              style={{ fontSize: 12 }}
+            >
+              <Button variant="light" size="compact-md" onClick={item.onClick}>
+                {item.title}
+              </Button>
+            </Tooltip>
+          );
+        })}
       </Group>
 
       <Box
@@ -28,6 +134,8 @@ export default function HomePage() {
           field.
         </Text>
       </Box>
+
+      <RenderTable />
     </Container>
   );
 }
