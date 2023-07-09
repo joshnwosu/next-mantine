@@ -12,7 +12,7 @@ export default function HomePage() {
 
       <Group gap={"xs"} mt={"xs"} grow wrap="nowrap">
         <Button onClick={() => console.log("Hi")}>Log Info</Button>
-        <Button>Clear Info</Button>
+        <Button onClick={() => console.log("Clear")}>Clear Info</Button>
         <Button>Add Info</Button>
       </Group>
 
