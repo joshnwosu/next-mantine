@@ -7,18 +7,51 @@ import {
   CloseButton,
   Container,
   Group,
+  NativeSelect,
+  Slider,
   Table,
   Text,
   TextInput,
   Title,
   Tooltip,
+  Select,
+  Avatar,
+  MultiSelect,
 } from "@mantine/core";
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 
 type ButtonDataProps = {
   title: string;
   onClick: () => void;
 };
+
+const data = [
+  {
+    image: "https://img.icons8.com/clouds/256/000000/futurama-bender.png",
+    label: "Bender Bending Rodríguez",
+    value: "Bender Bending Rodríguez",
+    description: "Fascinated with cooking",
+  },
+
+  {
+    image: "https://img.icons8.com/clouds/256/000000/futurama-mom.png",
+    label: "Carol Miller",
+    value: "Carol Miller",
+    description: "One of the richest people on Earth",
+  },
+  {
+    image: "https://img.icons8.com/clouds/256/000000/homer-simpson.png",
+    label: "Homer Simpson",
+    value: "Homer Simpson",
+    description: "Overweight, lazy, and often ignorant",
+  },
+  {
+    image: "https://img.icons8.com/clouds/256/000000/spongebob-squarepants.png",
+    label: "Spongebob Squarepants",
+    value: "Spongebob Squarepants",
+    description: "Not just a sponge",
+  },
+];
 
 const elements = [
   { position: 6, mass: 12.011, symbol: "C", name: "Carbon" },
@@ -52,6 +85,30 @@ const RenderTable = () => {
     </Table>
   );
 };
+
+interface ItemProps extends React.ComponentPropsWithoutRef<"div"> {
+  image: string;
+  label: string;
+  description: string;
+  data?: [];
+}
+
+const SelectItem = forwardRef<HTMLDivElement, ItemProps>(
+  ({ image, label, description, ...others }: ItemProps, ref) => (
+    <div ref={ref} {...others}>
+      <Group>
+        <Avatar src={image} />
+
+        <div>
+          <Text size="sm">{label}</Text>
+          <Text size="xs" opacity={0.65}>
+            {description}
+          </Text>
+        </div>
+      </Group>
+    </div>
+  )
+);
 
 export default function HomePage() {
   const [value, setValue] = useState("");
@@ -134,6 +191,46 @@ export default function HomePage() {
           field.
         </Text>
       </Box>
+
+      <Group wrap="wrap" my={"xl"} gap={20}>
+        <Select
+          withCheckIcon
+          checkIconPosition="right"
+          label="Your favorite library"
+          placeholder="Pick value"
+          searchable
+          size={"sm"}
+          data={[
+            {
+              group: "Frontend",
+              items: [
+                {
+                  value: "React",
+                  label: "React",
+                  image:
+                    "https://img.icons8.com/clouds/256/000000/homer-simpson.png",
+                },
+                { value: "Angular", label: "Angular" },
+              ],
+            },
+            {
+              group: "Backend",
+              items: [
+                { value: "Express", label: "Express" },
+                { value: "Django", label: "Django" },
+              ],
+            },
+          ]}
+        />
+
+        <MultiSelect
+          label="Your favorite libraries"
+          placeholder="Pick value"
+          data={["React", "Angular", "Vue", "Svelte"]}
+          searchable
+          size={"sm"}
+        />
+      </Group>
 
       <RenderTable />
     </Container>
