@@ -19,6 +19,7 @@ import {
   MultiSelect,
 } from "@mantine/core";
 import { forwardRef, useState } from "react";
+import DropDown from "./components/Dropdown";
 
 type ButtonDataProps = {
   title: string;
@@ -192,14 +193,13 @@ export default function HomePage() {
         </Text>
       </Box>
 
-      <Group wrap="wrap" my={"xl"} gap={20}>
+      <Group grow wrap="nowrap" my={"xl"} gap={20}>
         <Select
           withCheckIcon
           checkIconPosition="right"
           label="Your favorite library"
           placeholder="Pick value"
           searchable
-          size={"sm"}
           data={[
             {
               group: "Frontend",
@@ -207,8 +207,6 @@ export default function HomePage() {
                 {
                   value: "React",
                   label: "React",
-                  image:
-                    "https://img.icons8.com/clouds/256/000000/homer-simpson.png",
                 },
                 { value: "Angular", label: "Angular" },
               ],
@@ -228,8 +226,9 @@ export default function HomePage() {
           placeholder="Pick value"
           data={["React", "Angular", "Vue", "Svelte"]}
           searchable
-          size={"sm"}
         />
+
+        <DropDown />
       </Group>
 
       <RenderTable />
